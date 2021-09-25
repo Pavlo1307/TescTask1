@@ -1,3 +1,3 @@
 module.exports = {
-    variables: require('variables')
+    variables: require('./variables')
 };
