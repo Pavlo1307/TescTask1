@@ -1,13 +1,19 @@
 const express = require('express');
+const mongoose = require('mongoose');
 
-const { PORT } = require('./config/variables');
-const { messageErrors: { NOT_FOUND_ERR }, statusErrors: { NOT_FOUND_STATUS, SERVER_ERROR_STATUS } } = require('./errors');
+const { PORT, DATA_BASE_PORT } = require('./config/variables');
+const {
+    messageErrors: { NOT_FOUND_ERR },
+    statusErrors: { NOT_FOUND_STATUS, SERVER_ERROR_STATUS }
+} = require('./errors');
+
+const { userRouter } = require('./routers');
 
 const app = express();
 
-app.get('/', (req, res) => {
-    res.status(404).json('ok');
-});
+mongoose.connect(DATA_BASE_PORT, { useNewUrlParser: true, useUnifiedTopology: true });
+
+app.use('/users', userRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 
