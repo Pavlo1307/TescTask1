@@ -6,7 +6,7 @@ const { userUtil: { userNormalizator } } = require('../utils');
 module.exports = {
     createUser: async (req, res, next) => {
         try {
-            console.log(req.body);
+            console.log(req.params);
             const { password } = req.body;
             console.log('222222');
             const hashedPassword = await passwordService.hash(password);
