@@ -13,6 +13,9 @@ const app = express();
 
 mongoose.connect(DATA_BASE_PORT, { useNewUrlParser: true, useUnifiedTopology: true });
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use('/users', userRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);

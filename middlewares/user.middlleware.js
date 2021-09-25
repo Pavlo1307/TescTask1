@@ -7,9 +7,7 @@ const {
 module.exports = {
     getUserByDynamicParam: (paramName, searchIn = 'body', dbId = paramName) => async (req, res, next) => {
         try {
-            console.log('1111');
             const value = req[searchIn][paramName];
-            console.log('2222');
             const user = await USER.findOne({ [dbId]: value });
             req.user = user;
             next();
