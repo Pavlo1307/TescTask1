@@ -1,0 +1,29 @@
+{
+  "name": "TescTask1",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.13.7"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.11.97",
+    "eslint": "^7.32.0",
+    "morgan": "^1.10.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "nodemon": "^2.0.12"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staget"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "git add"
+    ]
+  }
+}
