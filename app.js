@@ -7,7 +7,7 @@ const {
     statusErrors: { NOT_FOUND_STATUS, SERVER_ERROR_STATUS }
 } = require('./errors');
 
-const { userRouter } = require('./routers');
+const { userRouter, loginRouter } = require('./routers');
 
 const app = express();
 
@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/users', userRouter);
+app.use('/login', loginRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 

@@ -1,7 +1,7 @@
 const { USER } = require('../dataBase');
 const {
-    ErrorHandler, statusErrors: { CONFLICT_STATUS },
-    messageErrors: { ALREADY_EXIST }
+    ErrorHandler, statusErrors: { CONFLICT_STATUS, FORBIDDEN_STATUS, NOT_FOUND_STATUS },
+    messageErrors: { ALREADY_EXIST, FORBIDDEN, NOT_FOUND_ERR }
 } = require('../errors');
 
 module.exports = {
@@ -29,4 +29,32 @@ module.exports = {
             next(e);
         }
     },
+
+    isUserNotPresent: (req, res, next) => {
+        try {
+            const { user } = req;
+
+            if (!user) {
+                throw new ErrorHandler(NOT_FOUND_STATUS, NOT_FOUND_ERR);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    checkUserForUpdate: (req, res, next) => {
+        try {
+            const { params: { user_id }, loginUser: { _id } } = req;
+
+            if (user_id !== _id.toString()) {
+                throw new ErrorHandler(FORBIDDEN_STATUS, FORBIDDEN);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
 };

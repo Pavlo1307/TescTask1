@@ -13,5 +13,5 @@ module.exports = {
 
     FORBIDDEN_STATUS: 403,
 
-    UN_AUTHORIZED_STATUS: 401
+    UNAUTHORIZED_STATUS: 401
 };

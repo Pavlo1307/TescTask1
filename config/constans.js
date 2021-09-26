@@ -3,6 +3,13 @@ module.exports = {
     EMAIL_REGEXP: new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$'),
     PHONE_REGEXP: new RegExp('^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$'),
     NAME_REGEXP: new RegExp(/^(?=.*[a-z])(?=.*[A-Z])/),
+    AUTHORIZATION: 'Authorization',
     email: 'email',
+    user: 'user',
     body: 'body',
+    user_id: 'user_id',
+    params: 'params',
+    id: '_id',
+    access: 'access_token',
+    refresh: 'refresh_token',
 };
