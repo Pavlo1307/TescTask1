@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 
 const http = require('http');
 const socket = require('socket.io');
-const { getAllUsers } = require('./controtrolles/user.controller');
 
 const { PORT, DATA_BASE_PORT } = require('./config/variables');
 const {
@@ -15,16 +14,20 @@ const {
 const { userRouter, loginRouter } = require('./routers');
 
 const app = express();
-
+app.use(express.static('assets'));
 const server = http.createServer(app);
 const io = socket(server);
 
 io.on('connection', (currentSocket) => {
-    console.log('cc');
-    currentSocket.on('users.get.all', async () => {
-        const users = await getAllUsers;
+    console.log('Made socket connection');
 
-        io.emit('users.all', users);
+    currentSocket.on('disconnect', () => {
+        console.log('Made socket disconnected');
+    });
+
+    currentSocket.on('send-notification', (data) => {
+        io.emit('new-notification', data);
+        currentSocket.broadcast.emit('new-notification', data);
     });
 });
 
@@ -33,6 +36,9 @@ mongoose.connect(DATA_BASE_PORT, { useNewUrlParser: true, useUnifiedTopology: tr
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.get('/', (req, res) => {
+    res.sendFile(`${__dirname}/` + 'index.html');
+});
 app.use('/users', userRouter);
 app.use('/login', loginRouter);
 app.use('*', _notFoundError);
