@@ -11,10 +11,10 @@ const {
 const passwordSchema = Joi.string().regex(PASSWORD_REGEXP).required();
 
 const createUserValidator = Joi.object({
-    first_name: Joi.string().regex(/^[a-z]/).min(2).max(30)
+    first_name: Joi.string().min(2).max(30).regex(NAME_REGEXP)
         .required()
         .trim(),
-    last_name: Joi.string().alphanum().min(2).max(30)
+    last_name: Joi.string().regex(NAME_REGEXP).min(2).max(30)
         .required()
         .trim(),
     password: passwordSchema,

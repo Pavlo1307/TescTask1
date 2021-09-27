@@ -1,5 +1,9 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
+
+const http = require('http');
+const socket = require('socket.io');
 
 const { PORT, DATA_BASE_PORT } = require('./config/variables');
 const {
@@ -11,6 +15,11 @@ const { userRouter, loginRouter } = require('./routers');
 
 const app = express();
 
+const server = http.createServer(app);
+const io = socket(server);
+
+
+
 mongoose.connect(DATA_BASE_PORT, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(express.json());
@@ -21,7 +30,7 @@ app.use('/login', loginRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log('App listen', PORT);
 });
 
