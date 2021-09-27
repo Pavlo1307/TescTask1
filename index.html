@@ -1,35 +1,42 @@
-<!DOCTYPE html>
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>NodeJS socket live notification demo</title>
+    <meta charset="utf-8">
 </head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js" integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="/socket.io/socket.io.js"></script>
 
 
-<button id="btn"> Update user </button>
+<input type="text" id="msg" /> <button type="button" onclick="sendMessage()">Send</button>
 
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/toastr.min.js"></script>
+<script src="/js/socket.io.js"></script>
 <script>
-    const socket = io('http://localhost:5000');
+    const socket = io();
+    toastr.options = {
+        timeOut: 2000,
+        positionClass : 'toast-bottom-right',
+        extendedTimeOut: 0,
+        fadeOut: 0,
+        fadeIn: 0,
+        showDuration: 0,
+        hideDuration: 0,
+        debug: false
+    };
 
-    document.getElementById('btn').onclick = () => {
-        console.log('clk')
-        socket.emit('users.get.all');
+    socket.on('new-notification', (resp) => {
+        toastr.success(resp, 'New notification')
+    });
+
+    function sendMessage() {
+        let msg = document.getElementById('msg').value;
+        if(msg.trim() !== '') {
+            socket.emit("send-notification", msg);
+        }
+
     }
-    socket.on('users.all', users => {
-        console.log(users)
-        users.forEach(user => {
-            let htmlDivElement = document.createElement('div');
-
-            htmlDivElement.innerText = JSON.stringify(user);
-
-            document.body.appendChild(htmlDivElement);
-        })
-    })
 </script>
-
 </body>
 </html>
