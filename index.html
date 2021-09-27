@@ -10,41 +10,25 @@
 <script src="/socket.io/socket.io.js"></script>
 
 
-<button id="btn"> SEND </button>
+<button id="btn"> Update user </button>
 
 <script>
     const socket = io('http://localhost:5000');
 
     document.getElementById('btn').onclick = () => {
-        console.log('CLK');
+        console.log('clk')
         socket.emit('users.get.all');
     }
-
-
     socket.on('users.all', users => {
+        console.log(users)
         users.forEach(user => {
             let htmlDivElement = document.createElement('div');
-            let htmlButtonElement = document.createElement('button');
-
-            htmlButtonElement.onclick = hanleDeleteUser
-
-            htmlButtonElement.innerText = 'DELL'
 
             htmlDivElement.innerText = JSON.stringify(user);
-            htmlDivElement.appendChild(htmlButtonElement);
 
             document.body.appendChild(htmlDivElement);
         })
     })
-
-    function hanleDeleteUser(e) {
-        let text = e.target.parentNode.firstChild.nodeValue;
-
-        const user = JSON.parse(text);
-
-        socket.emit('users.delete', {userId: user.id})
-    }
-
 </script>
 
 </body>

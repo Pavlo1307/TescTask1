@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const http = require('http');
 const socket = require('socket.io');
+const { getAllUsers } = require('./controtrolles/user.controller');
 
 const { PORT, DATA_BASE_PORT } = require('./config/variables');
 const {
@@ -18,7 +19,14 @@ const app = express();
 const server = http.createServer(app);
 const io = socket(server);
 
+io.on('connection', (currentSocket) => {
+    console.log('cc');
+    currentSocket.on('users.get.all', async () => {
+        const users = await getAllUsers;
 
+        io.emit('users.all', users);
+    });
+});
 
 mongoose.connect(DATA_BASE_PORT, { useNewUrlParser: true, useUnifiedTopology: true });
 
