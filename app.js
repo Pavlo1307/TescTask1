@@ -3,6 +3,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 const swagerUI = require('swagger-ui-express');
 
+require('dotenv').config();
+
 const http = require('http');
 const socket = require('socket.io');
 
