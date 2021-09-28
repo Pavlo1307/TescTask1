@@ -15,6 +15,7 @@ const { userRouter, loginRouter } = require('./routers');
 
 const app = express();
 app.use(express.static('assets'));
+app.use(express.static(`${__dirname}/public`));
 const server = http.createServer(app);
 const io = socket(server);
 
@@ -27,7 +28,6 @@ io.on('connection', (currentSocket) => {
 
     currentSocket.on('send-notification', (data) => {
         io.emit('new-notification', data);
-        currentSocket.broadcast.emit('new-notification', data);
     });
 });
 

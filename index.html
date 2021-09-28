@@ -5,25 +5,22 @@
     <meta charset="utf-8">
 </head>
 <body>
-
-
 <button type="button" onclick="sendMessage()">Update user</button>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js" integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="/js/jquery.min.js"></script>
-<script src="/js/toastr.min.js"></script>
-<script src="/js/socket.io.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+
 <script>
-    const socket = io();
+    const socket = io('http://localhost:5000');
     toastr.options = {
-        timeOut: 2000,
-        positionClass : 'toast-bottom-right',
-        extendedTimeOut: 0,
-        fadeOut: 0,
-        fadeIn: 0,
-        showDuration: 0,
-        hideDuration: 0,
-        debug: false
+        "debug": false,
+        "positionClass": "toast-top-right",
+        "onclick": null,
+        "fadeIn": 300,
+        "fadeOut": 1000,
+        "timeOut": 5000,
+        "extendedTimeOut": 1000
     };
 
     socket.on('new-notification', (resp) => {
@@ -31,6 +28,7 @@
     });
 
     function sendMessage() {
+        console.log('clk')
         let msg = 'user updated'
         if(msg.trim() !== '') {
             socket.emit("send-notification", msg);
