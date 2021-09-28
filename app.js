@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const swagerUI = require('swagger-ui-express');
 
 const http = require('http');
 const socket = require('socket.io');
@@ -12,6 +13,7 @@ const {
 } = require('./errors');
 
 const { userRouter, loginRouter } = require('./routers');
+const swaggerJson = require('./docs/swagger.json');
 
 const app = express();
 app.use(express.static('assets'));
@@ -36,6 +38,7 @@ mongoose.connect(DATA_BASE_PORT, { useNewUrlParser: true, useUnifiedTopology: tr
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/docs', swagerUI.serve, swagerUI.setup(swaggerJson));
 app.get('/', (req, res) => {
     res.sendFile(`${__dirname}/` + 'index.html');
 });

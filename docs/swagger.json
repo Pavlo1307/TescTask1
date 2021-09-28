@@ -1,0 +1,307 @@
+{
+  "info": {
+    "title": "Test-task",
+    "version": "0.0.1",
+    "description": "Hello world",
+    "contact": {
+      "name": "Pavlo Shavel"
+    }
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "operationId": "getAllUsers",
+        "description": "Get all users",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "type": "string",
+            "description": "User name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All users info array",
+            "schema": {
+              "$ref": "#/definitions/userSchema"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/errorSchema"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Create user",
+        "parameters": [
+          {
+            "name": "first_name",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "User first name",
+            "default": "Oleg"
+          },
+          {
+            "name": "last_name",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "User last name",
+            "default": "Petrenko"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "User email",
+            "default": "oleg23@lesson.owu"
+          },
+          {
+            "name": "phone",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "User phone",
+            "default": "3806256248"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "User pass",
+            "default": "12345!6aA"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User created",
+            "schema": {
+              "$ref": "#/definitions/singleUser"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/errorSchema"
+            }
+          }
+        }
+      }
+    },
+    "/users/{_id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "operationId": "getOneUSer",
+        "description": "Get one user",
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "type": "string",
+            "required": true,
+            "description": "user id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One user",
+            "schema": {
+              "$ref": "#/definitions/singleUser"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "description": "Update user",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "first_name",
+            "in": "formData",
+            "type": "string",
+            "default": "Petro",
+            "description": "User first name"
+          },
+          {
+            "name": "last_name",
+            "in": "formData",
+            "type": "string",
+            "default": "Ivanenko",
+            "description": "User last name"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "type": "string",
+            "default": "petro@example.com",
+            "description": "User email"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "type": "string",
+            "default": "9999!Psdsd",
+            "description": "Password"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "required": true,
+            "default": "access_token"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "One user",
+            "schema": {
+              "$ref": "#/definitions/singleUser"
+            }
+          }
+        }
+      }
+    },
+    "/auth": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "operationId": "login",
+        "description": "Login",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "email"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "password"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All users info array",
+            "schema": {
+              "$ref": "#/definitions/userSchema"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/errorSchema"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "errorSchema": {
+      "description": "bad request",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "err message",
+          "example": "Email or pass is wrong"
+        },
+        "code": {
+          "description": "custom code",
+          "example": 123,
+          "type": "number"
+        }
+      }
+    },
+    "userSchema": {
+      "type": "array",
+      "items": {
+        "items": {
+          "properties": {
+            "_id": {
+              "description": "User id",
+              "type": "string",
+              "example": "12354aaA55"
+            },
+            "name": {
+              "description": "User name",
+              "type": "string",
+              "example": "user"
+            },
+            "email": {
+              "description": "User email",
+              "type": "string",
+              "example": "email00@lesson.owu"
+            },
+            "password": {
+              "description": "User pass",
+              "type": "string",
+              "example": "xx11xx"
+            },
+            "avatar": {
+              "description": "User avatar",
+              "type": "string",
+              "example": "xxx101xx"
+            },
+            "role": {
+              "description": "User role",
+              "type": "string",
+              "enum": [
+                "user",
+                "admin"
+              ]
+            },
+            "isActivated": {
+              "description": "isActivated",
+              "type": "boolean",
+              "example": false
+            }
+          }
+        }
+      }
+    },
+    "singleUser": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "231321Aas"
+        },
+        "email": {
+          "type": "string",
+          "example": "email00@lesson.owu"
+        }
+      }
+    }
+  },
+  "swagger": "2.0"
+}
