@@ -1,5 +1,5 @@
 {
-  "name": "TescTask1",
+  "name": "Node",
   "version": "1.0.0",
   "dependencies": {
     "bcrypt": "^5.0.1",
