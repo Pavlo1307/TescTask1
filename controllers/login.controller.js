@@ -7,7 +7,7 @@ module.exports = {
     loginUser: async (req, res, next) => {
         try {
             const { user, body: { password } } = req;
-
+            console.log('dddd')
             await passwordService.comparePassword(password, user.password);
 
             const tokenPair = jwtService.generateTokenPair();
