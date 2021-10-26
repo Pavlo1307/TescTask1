@@ -1,5 +1,5 @@
 const { USER } = require('../dataBase');
-const { statusErrors: { CONFLICT_STATUS }, messageErrors: { ALREADY_EXIST }, ErrorHandler } = require('../errors');
+const { statusErrors: { CONFLICT_STATUS }, messageErrors: { ALREADY_EXIST, NOT_FOUND_ERR }, ErrorHandler } = require('../errors');
 
 module.exports = {
     getUserDynamicParams: (paramName, searchIn = 'body', dbId = paramName) => async (req, res, next) => {
@@ -8,7 +8,6 @@ module.exports = {
             const user = await USER.findOne({ [dbId]: value });
 
             req.user = user;
-
             next();
         } catch (e) {
             next(e);
@@ -31,7 +30,7 @@ module.exports = {
         try {
             const { user } = req;
             if (!user) {
-                throw new ErrorHandler(CONFLICT_STATUS, ALREADY_EXIST);
+                throw new ErrorHandler(CONFLICT_STATUS, NOT_FOUND_ERR);
             }
             next();
         } catch (e) {

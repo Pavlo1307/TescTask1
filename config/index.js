@@ -1,5 +1,5 @@
 module.exports = {
     variables: require('./variables'),
-    databaseTablesEnum: require('./darabaseTabels.enam'),
+    databaseTablesEnum: require('./databaseTabels.enam'),
     constants: require('./constants')
 };
