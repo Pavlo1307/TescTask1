@@ -13,6 +13,17 @@ module.exports = {
             next(e);
         }
     },
+
+    getSingleUser: (req, res, next) => {
+        try {
+            const userToReturn = userNormalizator(req.user);
+
+            res.json(userToReturn);
+        } catch (e) {
+            next(e);
+        }
+    },
+
     createUser: async (req, res, next) => {
         try {
             const { password } = req.body;
@@ -32,6 +43,20 @@ module.exports = {
             await USER.deleteOne({ _id: user_id });
 
             res.sendStatus(NO_CONTENT_STATUS);
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    updateUser: async (req, res, next) => {
+        try {
+            const { user_id } = req.params;
+
+            await USER.findByIdAndUpdate({ _id: user_id }, req.body);
+
+            const upUser = await USER.findOne({ _id: user_id });
+
+            res.status(CREATED_STATUS).json(upUser);
         } catch (e) {
             next(e);
         }

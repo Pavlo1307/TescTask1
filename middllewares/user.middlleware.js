@@ -1,5 +1,9 @@
 const { USER } = require('../dataBase');
-const { statusErrors: { CONFLICT_STATUS }, messageErrors: { ALREADY_EXIST, NOT_FOUND_ERR }, ErrorHandler } = require('../errors');
+const {
+    statusErrors: { CONFLICT_STATUS, FORBIDDEN_STATUS },
+    messageErrors: { ALREADY_EXIST, NOT_FOUND_ERR, ID_IS_FALSE },
+    ErrorHandler
+} = require('../errors');
 
 module.exports = {
     getUserDynamicParams: (paramName, searchIn = 'body', dbId = paramName) => async (req, res, next) => {
@@ -32,6 +36,19 @@ module.exports = {
             if (!user) {
                 throw new ErrorHandler(CONFLICT_STATUS, NOT_FOUND_ERR);
             }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    CheckUserForUpdate: (req, res, next) => {
+        try {
+            const { params: { user_id }, loginUser: { _id } } = req;
+            if (user_id !== _id.toString()) {
+                throw new ErrorHandler(FORBIDDEN_STATUS, ID_IS_FALSE);
+            }
+
             next();
         } catch (e) {
             next(e);

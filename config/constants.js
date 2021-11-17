@@ -5,6 +5,7 @@ module.exports = {
     NAME_REGEXP: new RegExp(/[a-zA-Z]$/),
     AUTHORIZATION: 'Authorization',
     email: 'email',
+    username: 'username',
     user: 'user',
     body: 'body',
     user_id: 'user_id',

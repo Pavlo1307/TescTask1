@@ -1,11 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const { userRouter, loginRouter } = require('./routers');
 
 const { PORT, DATA_BASE_PORT } = require('./config/variables');
 const { messageErrors: { NOT_FOUND_ERR }, statusErrors: { NOT_FOUND_STATUS, SERVER_ERROR_STATUS } } = require('./errors');
 
 const app = express();
+app.use(cors());
 
 mongoose.connect(DATA_BASE_PORT, { useNewUrlParser: true, useUnifiedTopology: true });
 

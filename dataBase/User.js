@@ -1,8 +1,14 @@
 const { Schema, model } = require('mongoose');
 
-const { databaseTablesEnum: { user } } = require('../config');
+const { databaseTablesEnum: { user }, userRoles: { DRIVER, ADMIN } } = require('../config');
 
 const userSchema = new Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true
+    },
     first_name: {
         type: String,
         required: true,
@@ -15,18 +21,22 @@ const userSchema = new Schema({
     },
     email: {
         type: String,
-        unique: true,
         required: true,
-        trim: true
-    },
-    phone: {
-        type: String,
+        trim: true,
     },
     password: {
         type: String,
         required: true,
         trim: true
-    }
+    },
+    role: {
+        type: String,
+        default: DRIVER,
+        enum: [
+            DRIVER,
+            ADMIN
+        ]
+    },
 
 }, { timestamps: true });
 
