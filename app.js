@@ -26,6 +26,7 @@ app.use(_mainErrorHandler);
 
 app.listen(PORT, () => {
     console.log('App listen', PORT);
+    require('./utils/defaultData.util');
 });
 
 function _notFoundError(err, req, res, next) {
